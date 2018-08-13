@@ -46,7 +46,8 @@ def createShortURL(request):
 
 
 def getOriginalURL(request, shortKey):
-    shortLink = ShortLink.objects.filter(shortKey=shortKey)
+    shortLink = ShortLink.objects.get(shortKey=shortKey)
     if not shortLink:
         return HttpResponseNotFound("URL Not found")
+    print(shortLink)
     return redirect(shortLink.original)
