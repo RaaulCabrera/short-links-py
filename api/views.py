@@ -4,6 +4,8 @@ import json
 
 from django.http import JsonResponse
 from django.http import HttpResponseBadRequest
+from django.http import HttpResponseNotFound
+from django.shortcuts import redirect
 
 from api.models import ShortLink
 
@@ -40,3 +42,11 @@ def createShortURL(request):
         return JsonResponse(shortList, safe=False)
     else:
         return HttpResponseBadRequest("Bad request")
+
+
+
+def getOriginalURL(request, shortKey):
+    shortLink = ShortLink.objects.filter(shortKey=shortKey)
+    if not shortLink:
+        return HttpResponseNotFound("URL Not found")
+    return redirect(shortLink.original)
