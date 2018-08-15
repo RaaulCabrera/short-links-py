@@ -32,7 +32,7 @@ def createShortURL(request):
         shortList = []
         for url in urllist:
             shortKey = b32encode(urandom(5)).decode('ascii')
-            shortUrl =  'http://' + request.get_host() + '/' + shortKey
+            shortUrl =  'http://' + request.get_host() + '/api/' + shortKey
             shortLink = ShortLink(original=url, shortKey=shortKey)
             shortLink.save()
             shortList.append({

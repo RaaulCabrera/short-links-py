@@ -1,0 +1,81 @@
+{% load static %}
+<!doctype html>
+<html>
+    <head>
+        <title>shrt</title>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    
+            <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+        <script src="{% static 'urlshortener/mustachejs/mustache.min.js' %}"></script>
+        <script src="{% static 'urlshortener/clipboardjs/clipboard.min.js' %}"></script>
+        <script src="{% static 'urlshortener/js/main.js' %}"></script>
+        <style>
+        .td-break-all {
+            max-width: 200px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        </style>
+      </head>
+      <body>
+        {% verbatim %}
+        <script id="tmpl-short-urls" type="x-tmpl-mustache">
+            {{#urls}}
+            <tr>
+                <td>#{{fn}}</td>
+                <td class="td-break-all">
+                    <a href="{{original}}">{{original}}</a>
+                </td>
+                <td>
+                    <a id="url-{{current}}" href="{{short}}">{{short}}</a>
+                </td>
+                <td>
+                    <button class="btn btn-light btn-sm" data-clipboard-target="#url-{{current}}" data-toggle="tooltip" data-placement="left" title="Copied!">Copy</button>
+                </td>
+            </tr>
+            {{/urls}}
+        </script>
+        {% endverbatim %}
+        
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <img height="100" src="{% static 'urlshortener/logo.png' %}" />
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-sm-11 col-10">
+                    <div id="warning-too-much-urls" class="alert alert-warning" role="alert">
+                        You could not send many urls!
+                    </div>
+                    <textarea id="urls-inpt" class="form-control"  wrap="off" rows="10" cols="150" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 text-center">
+                    <button id="process-btn" type="button" class="btn btn-primary" style="margin-top: 10px">Process</button>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-sm-8">
+                    <div class="table-responsive">
+                    <table id="tbl-short-urls" class="table table-hover table-sm" style="margin-top: 10px;">
+                        <tbody>
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </body>
+</html>
